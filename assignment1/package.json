@@ -1,0 +1,17 @@
+{
+  "name": "assignment1",
+  "version": "1.0.0",
+  "description": "Tic-Tac-Toe",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "node app.js"
+  },
+  "author": "Zijing Huang",
+  "license": "ISC",
+  "dependencies": {
+    "prompt": "^1.0.0",
+    "prompt-sync": "^4.1.4",
+    "prompt-sync-history": "^1.0.1"
+  }
+}
