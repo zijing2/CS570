@@ -37,7 +37,7 @@ let exportedMethods = {
             if(player_num>=1 && player_num<=26){
                     var board_num = prompt('How large the board should be(1~999): ');
                     if(board_num>0 && board_num<=999){
-                        var sequence_count = prompt('what the win sequence count should be ');
+                        var sequence_count = prompt('what the win sequence count should be:');
                         if(sequence_count>0 && sequence_count<= board_num){
                             if((board_num*board_num)/sequence_count >= player_num - 1){
                                 var GM = new gameModel.game();
@@ -81,7 +81,7 @@ let exportedMethods = {
                 GM.is_quit = 1;
             }else{
                 var row_column = result.split(" ");
-                if(row_column[0]<=GM.board_num && row_column[0]>=1 && row_column[1]>=1 &&row_column[1]<=GM.board_num){
+                if(parseInt(row_column[0])<=GM.board_num && parseInt(row_column[0])>=1 && parseInt(row_column[1])>=1 && parseInt(row_column[1])<=GM.board_num){
                     if(GM.board[row_column[0]-1][row_column[1]-1] != null){
                         console.log("this spot has been occupied, please choose another spot");
                     }else{
