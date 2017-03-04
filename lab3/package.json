@@ -1,0 +1,12 @@
+{
+  "name": "lab3",
+  "version": "1.0.0",
+  "description": "Bouncy Bubble Sort Lab",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "node app.js"
+  },
+  "author": "Zijing Huang",
+  "license": "ISC"
+}
