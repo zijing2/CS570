@@ -26,11 +26,11 @@ outter: while (true) {
         }
         if (express[i_1] == '(') {
             if (i_1 != 0 && i_1 != express.length - 1) {
-                if (isOperator(express[i_1 + 1])) {
+                if (isOperator(express[i_1 + 1]) && express[i_1 + 1] != '(') {
                     console.log("math express is invalid");
                     continue outter;
                 }
-                if (!isOperator(express[i_1 - 1])) {
+                if (!isOperator(express[i_1 - 1]) && express[i_1 - 1] != '(' && express[i_1 - 1] != ')') {
                     console.log("math express is invalid");
                     continue outter;
                 }
@@ -39,12 +39,12 @@ outter: while (true) {
         }
         if (express[i_1] == ')') {
             if (i_1 != 0 && i_1 != express.length - 1) {
-                if (isOperator(express[i_1 - 1])) {
+                if (isOperator(express[i_1 - 1]) && express[i_1 - 1] != ')') {
                     console.log("math express is invalid");
                     continue outter;
                 }
-                if (!isOperator(express[i_1 + 1])) {
-                    console.log("math express is invalid");
+                if (!isOperator(express[i_1 + 1]) && express[i_1 + 1] != '(' && express[i_1 + 1] != ')') {
+                    console.log("math express is invalid4");
                     continue outter;
                 }
             }

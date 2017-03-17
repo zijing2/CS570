@@ -26,11 +26,11 @@ outter: while(true){
         }
         if(express[i]=='('){
             if(i!=0&&i!=express.length-1){
-                if(isOperator(express[i+1])){
+                if(isOperator(express[i+1])&&express[i+1]!='('){
                     console.log("math express is invalid");
                     continue outter;
                 }
-                if(!isOperator(express[i-1])){
+                if(!isOperator(express[i-1])&&express[i-1]!='('&&express[i-1]!=')'){
                     console.log("math express is invalid");
                     continue outter;
                 }
@@ -39,12 +39,12 @@ outter: while(true){
         }
         if(express[i]==')'){
             if(i!=0&&i!=express.length-1){
-                if(isOperator(express[i-1])){
+                if(isOperator(express[i-1])&&express[i-1]!=')'){
                     console.log("math express is invalid");
                     continue outter;
                 }
-                if(!isOperator(express[i+1])){
-                    console.log("math express is invalid");
+                if(!isOperator(express[i+1])&&express[i+1]!='('&&express[i+1]!=')'){
+                    console.log("math express is invalid4");
                     continue outter;
                 }
             }
