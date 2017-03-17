@@ -80,7 +80,9 @@ outter: while(true){
             if(i==express.length-1){
                 postQ.enqueue(temp);
             }else{
-                if(isOperator(express[i+1])){
+                if(parseInt(express[i+1])>=0&&parseInt(express[i+1])<10){
+
+                }else{
                     postQ.enqueue(temp);
                     temp = '';
                 }

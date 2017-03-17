@@ -79,12 +79,9 @@ outter: while (true) {
                 postQ.enqueue(temp);
             }
             else {
-                // if(parseInt(express[i+1])>=0&&parseInt(express[i+1])<10){
-                // }else{
-                //     postQ.enqueue(temp);
-                //     temp = '';
-                // }
-                if (isOperator(express[i + 1])) {
+                if (parseInt(express[i + 1]) >= 0 && parseInt(express[i + 1]) < 10) {
+                }
+                else {
                     postQ.enqueue(temp);
                     temp = '';
                 }
