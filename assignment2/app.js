@@ -3,72 +3,97 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var stack_1 = require("./stack");
 var queue_1 = require("./queue");
 var prompt = require('prompt-sync')();
-outter: while (true) {
-    var express = prompt('please enter a infix math express: ');
-    express = express.replace(/\s+/g, '');
-    express = express.replace(/\^/g, '');
-    //change POW to operator
-    express = express.replace(/POW/g, '^');
-    if (express === 'quit') {
-        break;
+function main() {
+    outter: while (true) {
+        var express = prompt('please enter a infix math express: ');
+        express = express.replace(/\s+/g, '');
+        express = express.replace(/\^/g, '');
+        //change POW to operator
+        express = express.replace(/POW/g, '^');
+        if (express === 'quit') {
+            break;
+        }
+        //check if the express is invalid
+        try {
+            checkExpress(express);
+        }
+        catch (error) {
+            console.log(error);
+            continue outter;
+        }
+        var opStack = new stack_1.Stack();
+        var postQ = new queue_1.Queue();
+        conversion(opStack, postQ, express);
+        var evalStack = new stack_1.Stack();
+        var postfixQ = new queue_1.Queue();
+        //output conversion
+        var output = '';
+        while (postQ.length != 0) {
+            var str = '';
+            if (postQ.peek() == '^') {
+                str = 'POW';
+            }
+            else {
+                str = postQ.peek();
+            }
+            output += str + " ";
+            postfixQ.enqueue(postQ.dequeue());
+        }
+        console.log("postfix express: " + output);
+        calculate(postfixQ, evalStack);
+        //output evaluate
+        console.log("result: " + evalStack.peek());
     }
+}
+main();
+function checkExpress(express) {
     var checkBraceStack = new stack_1.Stack();
-    //check if the express is invalid
-    for (var i_1 = 0; i_1 < express.length; i_1++) {
+    for (var i = 0; i < express.length; i++) {
         //check negative operand
-        if ((i_1 == 0 && express[i_1] == '-') || (i_1 > 0 && express[i_1] == '-' && express[i_1 - 1] == '(')) {
-            console.log("negative number is not allow");
-            continue outter;
+        if ((i == 0 && express[i] == '-') || (i > 0 && express[i] == '-' && express[i - 1] == '(')) {
+            throw "negative number is not allow";
         }
-        if (express[i_1] != '0' && express[i_1] != '1' && express[i_1] != '2' && express[i_1] != '3' && express[i_1] != '4' && express[i_1] != '5' && express[i_1] != '6' && express[i_1] != '7' && express[i_1] != '8' && express[i_1] != '9' && express[i_1] != '+' && express[i_1] != '-' && express[i_1] != '*' && express[i_1] != '/' && express[i_1] != '%' && express[i_1] != '(' && express[i_1] != ')' && express[i_1] != '^') {
-            console.log("math express is invalid");
-            continue outter;
+        if (express[i] != '0' && express[i] != '1' && express[i] != '2' && express[i] != '3' && express[i] != '4' && express[i] != '5' && express[i] != '6' && express[i] != '7' && express[i] != '8' && express[i] != '9' && express[i] != '+' && express[i] != '-' && express[i] != '*' && express[i] != '/' && express[i] != '%' && express[i] != '(' && express[i] != ')' && express[i] != '^') {
+            throw "math express is invalid";
         }
-        if (express[i_1] == '(') {
-            if (i_1 != 0 && i_1 != express.length - 1) {
-                if (isOperator(express[i_1 + 1]) && express[i_1 + 1] != '(') {
-                    console.log("math express is invalid");
-                    continue outter;
+        if (express[i] == '(') {
+            if (i != 0 && i != express.length - 1) {
+                if (isOperator(express[i + 1]) && express[i + 1] != '(') {
+                    throw "math express is invalid";
                 }
-                if (!isOperator(express[i_1 - 1]) && express[i_1 - 1] != '(' && express[i_1 - 1] != ')') {
-                    console.log("math express is invalid");
-                    continue outter;
+                if (!isOperator(express[i - 1]) && express[i - 1] != '(' && express[i - 1] != ')') {
+                    throw "math express is invalid";
                 }
             }
-            checkBraceStack.push(express[i_1]);
+            checkBraceStack.push(express[i]);
         }
-        if (express[i_1] == ')') {
-            if (i_1 != 0 && i_1 != express.length - 1) {
-                if (isOperator(express[i_1 - 1]) && express[i_1 - 1] != ')') {
-                    console.log("math express is invalid");
-                    continue outter;
+        if (express[i] == ')') {
+            if (i != 0 && i != express.length - 1) {
+                if (isOperator(express[i - 1]) && express[i - 1] != ')') {
+                    throw "math express is invalid";
                 }
-                if (!isOperator(express[i_1 + 1]) && express[i_1 + 1] != '(' && express[i_1 + 1] != ')') {
-                    console.log("math express is invalid4");
-                    continue outter;
+                if (!isOperator(express[i + 1]) && express[i + 1] != '(' && express[i + 1] != ')') {
+                    throw "math express is invalid";
                 }
             }
             if (checkBraceStack.length == 0) {
-                console.log("parenthesis invalid");
-                continue outter;
+                throw "parenthesis invalid";
             }
             else {
                 checkBraceStack.pop();
             }
         }
-        if (isOperator(express[i_1]) && i_1 < express.length - 1) {
-            if (isOperator(express[i_1 + 1])) {
-                console.log("math express is invalid");
-                continue outter;
+        if (isOperator(express[i]) && i < express.length - 1) {
+            if (isOperator(express[i + 1])) {
+                throw "math express is invalid";
             }
         }
     }
     if (checkBraceStack.length != 0) {
-        console.log("parenthesis invalid");
-        continue outter;
+        throw "parenthesis invalid";
     }
-    var opStack = new stack_1.Stack();
-    var postQ = new queue_1.Queue();
+}
+function conversion(opStack, postQ, express) {
     var i = 0;
     var temp = '';
     //transfer infix to postfix
@@ -116,22 +141,8 @@ outter: while (true) {
         postQ.enqueue(opStack.peek());
         opStack.pop();
     }
-    var evalStack = new stack_1.Stack();
-    var postfixQ = new queue_1.Queue();
-    var output = '';
-    while (postQ.length != 0) {
-        var str = '';
-        if (postQ.peek() == '^') {
-            str = 'POW';
-        }
-        else {
-            str = postQ.peek();
-        }
-        output += str + " ";
-        postfixQ.enqueue(postQ.dequeue());
-    }
-    console.log("postfix express: " + output);
-    //evaluate
+}
+function calculate(postfixQ, evalStack) {
     while (postfixQ.length != 0) {
         var t = postfixQ.dequeue();
         if (isOperator(t)) {
@@ -166,7 +177,6 @@ outter: while (true) {
             evalStack.push(t);
         }
     }
-    console.log("result: " + evalStack.peek());
 }
 function precedence(operator) {
     if (operator == '+' || operator == '-') {
