@@ -1,0 +1,15 @@
+{
+  "name": "assignment3",
+  "version": "1.0.0",
+  "description": "Huffman Codes",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "node app.js"
+  },
+  "author": "Zijing Huang",
+  "license": "ISC",
+  "dependencies": {
+    "fs": "0.0.1-security"
+  }
+}
