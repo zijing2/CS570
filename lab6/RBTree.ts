@@ -1,12 +1,16 @@
 class TreeNode{
     public left : TreeNode;
     public right : TreeNode;
+    public parent: TreeNode;
     public val : number;
+    public color : String; // red or black
 
-    constructor(val : number){
+    constructor(val : number, color : String, parent : TreeNode){
         this. val = val;
         this.left = null;
         this.right = null;
+        this.color = color;
+        this.parent = parent;
     }
 }
 
@@ -16,7 +20,7 @@ export class RBTree{
     public root;
 
     /**
-     * insert
+     * insertion
      */
     public insert(val : number) {
         var current = this.root;
@@ -25,27 +29,36 @@ export class RBTree{
                 return;
             }else if(val < current.val){
                 if(current.left == null){
-                    current.left = new TreeNode(val);
+                    current.left = new TreeNode(val,"red",current);
+                    if(current.color == 'red'){
+                        this.ajust(current.left);
+                    }
                     return;
                 }else{
+                    current.left.parent = current;
                     current = current.left;
                 }
             }else{
                 if(current.right == null){
-                    current.right = new TreeNode(val);
+                    current.right = new TreeNode(val,"red",current);
+                    if(current.color == 'red'){
+                        this.ajust(current.right);
+                    }
                     return;
                 }else{
+                    current.right.parent = current;
                     current = current.right;
                 }
             }
         }
 
-        this.root = new TreeNode(val);
+        //rbt insertion case1: insert node is root
+        this.root = new TreeNode(val, "black",null);
         return;
     }
 
     /** 
-     * delete
+     * deletion
      */
     public delete(val : number){
         var current = this.root;
@@ -129,4 +142,126 @@ export class RBTree{
         }
         return false;
     }
+
+
+    public ajust(n : TreeNode){
+        //case1
+        if(n == this.root){
+            n.color = "black";
+        }else{
+            //case2
+            if (n.parent.color == "black"){
+                return;
+            }else{
+                //case3
+                if(this.uncle(n)!=null && this.uncle(n).color=='red'){
+                    n.parent.color = 'black';
+                    this.uncle(n).color = 'black';
+                    this.grandparent(n).color = 'red';
+                    this.ajust(this.grandparent(n));
+                }else{
+                    //case4
+                    if((n == n.parent.right) && n.parent == this.grandparent(n).left){
+                        this.rotateLeft(n.parent);
+                        n = n.left;
+                    }else if((n == n.parent.left) && (n.parent == this.grandparent(n).right)){
+                        this.rotateRight(n.parent);
+                        n = n.right;
+                    }else{
+                        //case5
+                        n.parent.color = 'black';
+                        this.grandparent(n).color = 'red';
+                        if ((n == n.parent.left) && (n.parent == this.grandparent(n).left)) {
+                                this.rotateRight(this.grandparent(n));
+                        } else { /* (n == n->parent->right) and (n->parent == g->right) */
+                                this.rotateLeft(this.grandparent(n));
+                        }
+                    }
+                }
+            }
+        } 
+    }
+
+    private grandparent(n : TreeNode){
+        return n.parent.parent;
+    }
+
+    private uncle(n : TreeNode){
+        if(n.parent == this.grandparent(n).right){
+            return this.grandparent(n).left;
+        }else{
+            return this.grandparent(n).right;
+        }
+    }
+
+    // private rotateLeft(n : TreeNode) {
+    //     var newNode = n.right;
+    //     var parent = n.parent;
+    //     parent.left = newNode;
+
+    //     n.parent = newNode;
+    //     n.right = newNode.left;
+
+    //     if(newNode.left != null)
+    //         newNode.left.parent=n;
+
+    //     newNode.parent=parent;
+    //     newNode.left=n;
+    // }
+
+    // private rotateRight(n : TreeNode) {
+    //     var newNode = n.left;
+    //     var parent = n.parent;
+    //     parent.right = newNode;
+
+    //     n.parent = newNode;
+    //     n.left = newNode.right;
+
+    //     if(newNode.right != null)
+    //         newNode.right.parent=n;
+
+    //     newNode.parent=parent;
+    //     newNode.right=n;
+    // }
+
+    private rotateLeft(node : TreeNode) {
+        var temp = node.right;
+        this.replaceNode(node, temp);
+        node.right = temp.left;
+        if (node.right !== null) {
+        node.right.parent = node;
+        }
+        temp.left = node;
+        node.parent = temp;
+    }
+    
+    private rotateRight(node : TreeNode) {
+        var temp = node.left;
+        this.replaceNode(node, temp);
+        node.left = temp.right;
+        if (node.left !== null) {
+        node.left.parent = node;
+        }
+        temp.right = node;
+        node.parent = temp;
+    }
+
+    private replaceNode(oldNode: TreeNode, newNode: TreeNode) {
+        var parent = oldNode.parent;
+
+        if (newNode !== null) {
+        newNode.parent = parent;
+        }
+
+        if (parent === null) {
+        this.root = newNode;
+        } else {
+        if (oldNode === parent.left) {
+            parent.left = newNode;
+        } else {
+            parent.right = newNode;
+        }
+        }
+  }
+
 }
