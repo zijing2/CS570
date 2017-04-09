@@ -8,5 +8,8 @@
     "test": "node app.js"
   },
   "author": "Zijing Huang",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "redblack.js": "^0.1.0"
+  }
 }

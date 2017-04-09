@@ -1,10 +1,10 @@
 class TreeNode{
+    public val : number;
+    public color : String; // red or black
     public left : TreeNode;
     public right : TreeNode;
     public parent: TreeNode;
-    public val : number;
-    public color : String; // red or black
-
+    
     constructor(val : number, color : String, parent : TreeNode){
         this. val = val;
         this.left = null;
@@ -75,17 +75,47 @@ export class RBTree{
                     if(current == this.root){
                         if(current.left!=null){
                             this.root = current.left;
+                            if (current.color === "black" && current.left !== null) {
+                                if (current.left.color === "red") {
+                                    current.left.color = "black";
+                                } else {
+                                    this.fixDeleteOneChild(current.left);
+                                }
+                            }
                             return;
                         }else{
                             this.root = current.right;
+                            if (current.color === "black" && current.right !== null) {
+                                if (current.right.color === "red") {
+                                    current.right.color = "black";
+                                } else {
+                                    this.fixDeleteOneChild(current.right);
+                                }
+                            }
                             return;
                         }
                     }else{
                         if(current.left!=null){
+                            current.left.parent = parent;
                             parent[direction] = current.left;
+                            if (current.color === "black" && current.left !== null) {
+                                if (current.left.color === "red") {
+                                    current.left.color = "black";
+                                } else {
+                                    this.fixDeleteOneChild(current.left);
+                                }
+                            }
                             return;
                         }else{
+                            current.right.parent = parent;
                             parent[direction] = current.right;
+                            if (current.color === "black" && current.right !== null) {
+                                if (current.right.color === "red") {
+                                    current.right.color = "black";
+                                } else {
+                                    this.fixDeleteOneChild(current.right);
+                                }
+                            }
                             return;
                         }
                     }
@@ -95,7 +125,10 @@ export class RBTree{
                     var c = current.left;
                     if(c.right == null){
                         c.right = current.right;
+                        current.right.parent = c;
                         parent[direction] = c;
+                        c.parent = parent;
+                        c.color = current.color;
                         return;
                     }
                     var parent_of_c = null;
@@ -103,14 +136,22 @@ export class RBTree{
                         parent_of_c = c;
                         c = c.right;
                     }
-                    parent_of_c.right = null;
+                    parent_of_c.right = c.left;
+                    if(c.left!=null){
+                        c.left.parent = parent_of_c;
+                    }
                     c.left = current.left;
+                    current.left.parent = c;
                     c.right = current.right;
+                    current.right.parent = c;
                     if(current != this.root){
                         parent[direction] = c;
+                        c.parent = parent;
                     }else{
                         this.root = c;
+                        c.parent = null;
                     }
+                    c.color = current.color;
                     return;
                 }
             }else if (val < current.val){
@@ -262,6 +303,72 @@ export class RBTree{
             parent.right = newNode;
         }
         }
+  }
+
+  private fixDeleteOneChild(node: TreeNode) {
+    if (node.parent === null) {
+      return;
+    }
+
+    var parent = node.parent;
+    var sibling = (node === parent.left) ?
+      parent.right : parent.left;
+
+    if (sibling.color === "red") {
+      parent.color = "red";
+      sibling.color = "black";
+      if (node === parent.left) {
+        this.rotateLeft(parent);
+        sibling = parent.right;
+      } else {
+        this.rotateRight(parent);
+        sibling = parent.left;
+      }
+    }
+
+    var slb = sibling.left === null || sibling.left.color === "black";
+    var srb = sibling.right === null || sibling.right.color === "black";
+
+    if (sibling.color === "black" && slb && srb) {
+      sibling.color = "red";
+      if (parent.color === "red") {
+        parent.color = "black";
+      } else {
+        this.fixDeleteOneChild(parent);
+      }
+      return;
+    }
+
+    if (node === parent.left) {
+      if (srb) {
+        sibling.color = "red";
+        sibling.left.color = "black";
+        this.rotateRight(sibling);
+        sibling = sibling.parent;
+      }
+    } else {
+      if (slb) {
+        sibling.color = "red";
+        sibling.right.color = "black";
+        this.rotateLeft(sibling);
+        sibling = sibling.parent;
+      }
+    }
+
+    sibling.color = parent.color;
+    parent.color = "black";
+
+    if (node === parent.left) {
+      if (sibling.right !== null) {
+        sibling.right.color = "black";
+      }
+      this.rotateLeft(parent);
+    } else {
+      if (sibling.left !== null) {
+        sibling.left.color = "black";
+      }
+      this.rotateRight(parent);
+    }
   }
 
 }
