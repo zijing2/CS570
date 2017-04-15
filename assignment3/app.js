@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var PQ_1 = require("./PQ");
 // import { getFileAsStringSync } from './data/fileData';
-var fs = require("fs");
+var fs = require("graceful-fs");
 var symbol_info = (function () {
     function symbol_info(s, f) {
         this.symbol = s;
@@ -74,22 +74,18 @@ var HaffmanCode = (function () {
         //DFS
         this.DFS(root, "");
         //Render
-        console.log(this.total_string);
         var output_string = "";
         //console.log("Symbol|frequency|Huffman Codes");
         output_string = "Symbol|frequency|Huffman Codes\n";
-        var total = 0;
         for (var i = 0; i < freq_table.length; i++) {
             this.total_bits = this.total_bits + (freq_table[i].frequency * this.huff_code_table[freq_table[i].symbol].split("").length);
-            total += freq_table[i].frequency;
-            console.log(freq_table[i].frequency);
             //console.log(freq_table[i].symbol+"|"+ parseFloat((freq_table[i].frequency/this.total_string).toFixed(4))*100 + "%" +"|"+this.huff_code_table[freq_table[i].symbol]);
             output_string += freq_table[i].symbol + '|' + parseFloat((freq_table[i].frequency / this.total_string).toFixed(4)) * 100 + '%' + '|' + this.huff_code_table[freq_table[i].symbol] + "\n";
         }
-        console.log(total);
         //console.log("Total Bits:" + this.total_bits);
         output_string += "Total Bits:" + this.total_bits;
         fs.writeFileSync("outfile.dat", output_string);
+        console.log("success generate outfile.dat");
         //console.log(freq_table,this.huff_code_table);
     };
     HaffmanCode.DFS = function (root, path) {

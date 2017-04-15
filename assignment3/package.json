@@ -10,6 +10,8 @@
   "author": "Zijing Huang",
   "license": "ISC",
   "dependencies": {
-    "fs": "0.0.1-security"
+    "fs": "0.0.1-security",
+    "fs-sync": "^1.0.4",
+    "graceful-fs": "^4.1.11"
   }
 }

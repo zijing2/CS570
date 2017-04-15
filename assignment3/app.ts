@@ -1,6 +1,6 @@
 import { PriorityQueue } from './PQ';
 // import { getFileAsStringSync } from './data/fileData';
-import fs = require('fs');
+import fs = require('graceful-fs');
 
 class symbol_info {
     public  symbol;
@@ -88,7 +88,6 @@ class HaffmanCode{
     this.DFS(root,"");
 
     //Render
-    console.log(this.total_string);
     var output_string = "";
     //console.log("Symbol|frequency|Huffman Codes");
     output_string = "Symbol|frequency|Huffman Codes\n";
@@ -100,7 +99,7 @@ class HaffmanCode{
     //console.log("Total Bits:" + this.total_bits);
     output_string += "Total Bits:" + this.total_bits;
     fs.writeFileSync("outfile.dat",output_string);
-    
+    console.log("success generate outfile.dat");
     //console.log(freq_table,this.huff_code_table);
 }
 
