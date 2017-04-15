@@ -11,10 +11,11 @@ d.insert("gpa", "4.0");
 d.insert("lab", "yes");
 d.insert("assignment", "no");
 d.insert("department", "cs");
-console.log(d.hasKey("abc"));
-console.log(d.hasKey("gpa"));
-// console.log(d.retrieve("gpa"));
-// console.log(d.retrieve("department"));
+// console.log(d.hasKey("abc"));
+// console.log(d.hasKey("gpa"));
+console.log(d.retrieve("gpa"));
+console.log(d.retrieve("department"));
+//This is the RBTree I wrote myself
 // import {RBTree} from "./RBTree";
 // var rbt = new RBTree();
 // // rbt.insert(5);

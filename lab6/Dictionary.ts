@@ -1,4 +1,4 @@
-var rb = require( 'redblack.js' );
+import rb = require( 'redblack.js' );
 
 export class Dictionary{
 

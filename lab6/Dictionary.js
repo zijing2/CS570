@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var rb = require('redblack.js');
+var rb = require("redblack.js");
 var Dictionary = (function () {
     function Dictionary() {
         this.rbtree = rb();
