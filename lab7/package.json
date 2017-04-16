@@ -1,0 +1,15 @@
+{
+  "name": "lab7",
+  "version": "1.0.0",
+  "description": "Topological Sort Lab",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "node app.js"
+  },
+  "author": "Zijing Huang",
+  "license": "ISC",
+  "dependencies": {
+    "graceful-fs": "^4.1.11"
+  }
+}
