@@ -1,0 +1,17 @@
+{
+  "name": "assignment5",
+  "version": "1.0.0",
+  "description": "Link State Routing",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "node app.js"
+  },
+  "author": "Zijing Huang",
+  "license": "ISC",
+  "dependencies": {
+    "graceful-fs": "^4.1.11",
+    "prompt-sync": "^4.1.5",
+    "uuid": "^3.0.1"
+  }
+}
