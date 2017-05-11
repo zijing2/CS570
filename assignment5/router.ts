@@ -18,7 +18,7 @@ export class router{
     public router_network_mapping 
     public routing_table
 
-    public TICK_CHECK = 0;
+    public TICK_CHECK = 1;
 
 
     constructor(){
@@ -117,8 +117,10 @@ export class router{
             }
             //update when a router from shut-down to start
             if(this.recieved_list[this.tick][prop]!=undefined){
-                //console.log(prop,this.id,app.routers[prop].connected_routers_list[this.id]);
-                this.connected_routers_list[prop] = app.routers[prop].connected_routers_list[this.id];
+                this.connected_routers_list[prop] = 1;
+                if(this.connected_routers_list[prop]==Number.MAX_VALUE){
+                    this.connected_routers_list[prop] = app.routers[prop].connected_routers_list[this.id];
+                }
             }
         } 
     }
