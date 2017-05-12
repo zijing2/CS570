@@ -70,6 +70,7 @@ var router = (function () {
                 this.checkTicks();
             }
         }
+        console.log(app_1.app.routers[3].connected_routers_list);
     };
     /*
     *   generate a link state packet
@@ -93,14 +94,11 @@ var router = (function () {
     router.prototype.checkTicks = function () {
         for (var prop in this.connected_routers_list) {
             //update when shutdown
-            if (this.recieved_list[this.tick][prop] == undefined) {
+            if (this.recieved_list[this.tick][prop] == undefined && this.recieved_list[this.tick - 1][prop] == undefined) {
                 this.setCostInfinite(prop);
             }
             //update when a router from shut-down to start
             if (this.recieved_list[this.tick][prop] != undefined) {
-                // if(this.id=='3'){
-                //     console.log(prop,this.id,app.routers[prop].connected_routers_list[this.id]);
-                // }
                 this.connected_routers_list[prop] = 1;
                 if (this.connected_routers_list[prop] == Number.MAX_VALUE) {
                     this.connected_routers_list[prop] = app_1.app.routers[prop].connected_routers_list[this.id];

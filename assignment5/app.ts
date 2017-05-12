@@ -14,8 +14,10 @@ export class app{
             console.log("\n C : continue\n Q : quit\n P followed by the routers id number: print the routing table of a router\n S followed by the id number: shut down a router\n T followed by the id : start up a router\n please enter your choose:");
             var p = prompt('');
             if(p.toLowerCase()=="c"){
-                for(var prop in this.routers){
-                    this.routers[prop].originatePacket();
+                for(var i=0;i<2;i++){
+                    for(var prop in this.routers){
+                        this.routers[prop].originatePacket();
+                    }
                 }
             }else if(p.toLowerCase()=="q"){
                 break;

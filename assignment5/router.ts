@@ -87,6 +87,7 @@ export class router{
                 this.checkTicks();
             }      
         }
+        //console.log(app.routers[3].connected_routers_list);
     }
 
     /*
