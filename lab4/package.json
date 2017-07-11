@@ -1,0 +1,20 @@
+{
+  "name": "lab4",
+  "version": "1.0.0",
+  "description": "clockwork",
+  "main": "app.js",
+  "scripts": {
+    "test": "node app.js",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cuwanna/lab4.git"
+  },
+  "author": "Chuck Uwanna",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cuwanna/lab4/issues"
+  },
+  "homepage": "https://github.com/cuwanna/lab4#readme"
+}

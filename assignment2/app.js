@@ -2,7 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var stack_1 = require("./stack");
 var queue_1 = require("./queue");
-var prompt = require('prompt-sync')();
+var prompt_f = require("prompt-sync");
+var prompt = prompt_f();
 function main() {
     outter: while (true) {
         var express = prompt('please enter a infix math express: ');

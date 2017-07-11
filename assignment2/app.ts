@@ -1,9 +1,11 @@
 import { Stack } from './stack';
 import { Queue } from './queue';
-var prompt = require('prompt-sync')();
+import prompt_f = require('prompt-sync');
+var prompt = prompt_f();
 
 
 function main(){
+    
     outter: while(true){
         var express = prompt('please enter a infix math express: ');
         express = express.replace(/\s+/g, '');
